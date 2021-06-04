@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use App\Post;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        Post::class => PostPolicy::class,
     ];
 
     /**
@@ -25,7 +29,27 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies($gate);
+        Gate::define('update-post', function ($user, $post) {
 
-        //
+            $permissions=$user->role->permission();
+
+            foreach ($permissions as $permission){
+
+                if(in_array($permission->name,[
+
+                        'Create',
+
+                    ])){
+                    return true;
+
+                }else{
+                    return false;
+                }
+
+            }
+
+
+        });
+
     }
 }

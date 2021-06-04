@@ -52,6 +52,11 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'Admin' => \App\Http\Middleware\Admin::class,
+        'Create' => \App\Http\Middleware\Create::class,
+        'Read' => \App\Http\Middleware\Read::class,
+        'Update' => \App\Http\Middleware\Update::class,
+        'Delete' => \App\Http\Middleware\Delete::class,
+        'Dashboard' => \App\Http\Middleware\Dashboard::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ];
 }

@@ -1,5 +1,9 @@
 <?php
 use \App\Permission;
+use \App\Post;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,105 +26,30 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+
+Route::get('/test', function () {
+if(Gate::allows('Create',Post::class)){
+
+    return "Hi";
+}else{
+    return "No";
+}
+
+});
+
+
+
 Route::get('/zhc',function(){
 
 
-      $permissions=Auth::user()->role->permission();
+$access=Auth::user()->role->HasAccess();
+echo $access;
 
-    $tryss=Auth::user()->role->tryss();
-
-    if($tryss==='["1","2","3","4","5"]') {
-        echo "Administrator";
-    }else
-        if($tryss==='["1","2","3","4"]') {
-        echo "Dashboard,Create,Read,Update";
-    }else
-        if($tryss==='["1","2","3","5"]') {
-        echo "Dashboard,Create,Read,Update";
-    }else
-        if($tryss==='["1","2","4","5"]') {
-        echo "Dashboard,Create,Read,Update";
-    }else
-        if($tryss==='["1","3","4","5"]') {
-        echo "Dashboard,Create,Read,Update";
-    }else
-        if($tryss==='["2","3","4","5"]') {
-        echo "Dashboard,Create,Read,Update";
-    }else
-        if($tryss==='["1","2","3"]') {
-        echo "Dashboard,Create,Read";
-    }else
-        if($tryss==='["1","3","4"]') {
-        echo "Dashboard,Create,Read";
-    }else
-        if($tryss==='["2","3","4"]') {
-        echo "Dashboard,Create,Read";
-    }else
-        if($tryss==='["1","3","5"]') {
-        echo "Dashboard,Create,Read";
-    }else if($tryss==='["2","3","5"]') {
-        echo "Dashboard,Create,Read";
-    }else if($tryss==='["1","2","4"]') {
-        echo "Dashboard,Create,Read";
-    }else if($tryss==='["1","2","5"]') {
-        echo "Dashboard,Create,Read";
-    }else if($tryss==='["2","4","5"]') {
-        echo "Dashboard,Create,Read";
-    }else if($tryss==='["1","4","5"]') {
-        echo "Dashboard,Create,Read";
-    }else
-        if($tryss==='["3","4","5"]') {
-        echo "Dashboard,Create,Read";
-    }
-    else if($tryss==='["1","2"]') {
-        echo "Dashboard,Create";
-    }else if($tryss==='["1","3"]') {
-        echo "Dashboard,Read";
-    }else if($tryss==='["1","4"]') {
-        echo "Dashboard,Update";
-    }else if($tryss==='["1","5"]') {
-        echo "Dashboard,Delete";
-    }else if($tryss==='["2","3"]') {
-        echo "Create,Read";
-    }else if($tryss==='["2","4"]') {
-        echo "Create,Update";
-    }else if($tryss==='["2","5"]') {
-        echo "Create,Delete";
-    }
-
-    else if($tryss==='["3","4"]') {
-        echo "Read,Update";
-    } else if($tryss==='["3","5"]') {
-        echo "Read,Delete";
-    }else if($tryss==='["4","5"]') {
-        echo "Update,Delete";
-    }
-
-
-
-    else if($tryss==='["1"]') {
-        echo "Dashboard";
-    }else if($tryss==='["2"]') {
-        echo "Create";
-    }else if($tryss==='["3"]') {
-        echo "Read";
-    }else if($tryss==='["4"]') {
-        echo "Update";
-    }else if($tryss==='["5"]') {
-        echo "Delete";
-    }
-
-
-    $isAdministrator=Auth::user()->role->isAdministrator($permissions);
-
-    $isUser=Auth::user()->role->isUser($permissions);
-    //echo $isUser;
-
-   // echo $isAdministrator;
-
-
-    //return $permissions;
 });
+
+
+
+
 
 
 Route::group(['middleware'=>'Admin'],function(){
@@ -128,6 +57,10 @@ Route::group(['middleware'=>'Admin'],function(){
     Route::get('/admin',function(){
         return view('admin.index');
     });
+
+    Route::get('/admin1',['middleware'=>'Create',function(){
+        return view('admin1.index');
+    }]);
 
     Route::resource('/admin/users','AdminUsersController',['names'=>[
         'index'=>'admin.users.index',

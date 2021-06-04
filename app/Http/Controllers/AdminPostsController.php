@@ -22,10 +22,10 @@ class AdminPostsController extends Controller
     {
         $posts=Post::all();
         $users=user::all();
+        $currentUser = Auth::user();
+        $posts_of_Current_User=$currentUser->posts;
 
-
-
-        return view('admin.posts.index',compact('posts','users'));
+        return view('admin.posts.index',compact('posts','users','posts_of_Current_User'));
     }
 
     /**
@@ -49,6 +49,9 @@ class AdminPostsController extends Controller
      */
     public function store(PostsCreateRequest $request)
     {
+
+
+
         $input=$request->all();
         $user=Auth::user();
 

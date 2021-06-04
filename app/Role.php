@@ -14,14 +14,91 @@ class Role extends Model
     protected $guarded = [''];
 
     public function permission(){
-        $permissions = Permission::whereIn('id', json_decode($this->attributes['permissions']))->get();
-
+       $permissions = Permission::whereIn('id', json_decode($this->attributes['permissions']))->get();
 
         return $permissions;
     }
 
-    public  function tryss(){
-        return $this->attributes['permissions'];
+    public  function HasAccess(){
+        $Access= $this->attributes['permissions'];
+
+        if($Access==='["1","2","3","4","5"]') {
+            echo "Administrator";
+        }else
+            if($Access==='["1","2","3","4"]') {
+                echo "Dashboard,Create,Read,Update";
+            }else
+                if($Access==='["1","2","3","5"]') {
+                    echo "Dashboard,Create,Read,Delete";
+                }else
+                    if($Access==='["1","2","4","5"]') {
+                        echo "Dashboard,Create,Read,Update";
+                    }else
+                        if($Access==='["1","3","4","5"]') {
+                            echo "Dashboard,Create,Read,Update";
+                        }else
+                            if($Access==='["2","3","4","5"]') {
+                                echo "Dashboard,Create,Read,Update";
+                            }else
+                                if($Access==='["1","2","3"]') {
+                                    echo "Dashboard,Create,Read";
+                                }else
+                                    if($Access==='["1","3","4"]') {
+                                        echo "Dashboard,Create,Read";
+                                    }else
+                                        if($Access==='["2","3","4"]') {
+                                            echo "Dashboard,Create,Read";
+                                        }else
+                                            if($Access==='["1","3","5"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else if($Access==='["2","3","5"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else if($Access==='["1","2","4"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else if($Access==='["1","2","5"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else if($Access==='["2","4","5"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else if($Access==='["1","4","5"]') {
+                                                echo "Dashboard,Create,Read";
+                                            }else
+                                                if($Access==='["3","4","5"]') {
+                                                    echo "Dashboard,Create,Read";
+                                                }
+                                                else if($Access==='["1","2"]') {
+                                                    echo "Dashboard,Create";
+                                                }else if($Access==='["1","3"]') {
+                                                    echo "Dashboard,Read";
+                                                }else if($Access==='["1","4"]') {
+                                                    echo "Dashboard,Update";
+                                                }else if($Access==='["1","5"]') {
+                                                    echo "Dashboard,Delete";
+                                                }else if($Access==='["2","3"]') {
+                                                    echo "Create,Read";
+                                                }else if($Access==='["2","4"]') {
+                                                    echo "Create,Update";
+                                                }else if($Access==='["2","5"]') {
+                                                    echo "Create,Delete";
+                                                }
+
+                                                else if($Access==='["3","4"]') {
+                                                    echo "Read,Update";
+                                                } else if($Access==='["3","5"]') {
+                                                    echo "Read,Delete";
+                                                }else if($Access==='["4","5"]') {
+                                                    echo "Update,Delete";
+                                                }
+                                                else if($Access==='["1"]') {
+                                                    echo "Dashboard";
+                                                }else if($Access==='["2"]') {
+                                                    echo "Create";
+                                                }else if($Access==='["3"]') {
+                                                    echo "Read";
+                                                }else if($Access==='["4"]') {
+                                                    echo "Update";
+                                                }else if($Access==='["5"]') {
+                                                    echo "Delete";
+                                                }
     }
 
 
